@@ -6,29 +6,38 @@ const Scenes = MyMovieTripDB.define(
   "scenes",
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
     film: {
       type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false,
     },
     creation_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     photo_url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(256),
+      allowNull: false,
     },
     location: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     country: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     city: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
