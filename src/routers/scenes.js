@@ -5,8 +5,15 @@ const Scenes = require("Models/scenes");
 const router = new Router();
 
 router.get("/scenes", async (req, res) => {
+  let parts = [];
+  if (req.query.creation_date_sort) {
+    parts.push(["creation_date", req.query.creation_date_sort]);
+  }
+
   try {
-    const scenes = await Scenes.findAll();
+    const scenes = await Scenes.findAll({
+      order: [parts],
+    });
     return res.send(scenes);
   } catch (error) {
     console.log(error);
@@ -77,7 +84,7 @@ router.delete("/scenes/:id", async (req, res) => {
       return res.status(404).send({ error: "Scene not found" });
     }
     await scene.destroy();
-    return res.status(200);
+    return res.status(204);
   } catch (error) {
     console.log(error);
     return res.status(500).send({ error: error.message });
