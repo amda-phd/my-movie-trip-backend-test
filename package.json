@@ -1,7 +1,7 @@
 {
   "name": "my-movie-trip",
   "version": "1.0.0",
-  "description": "Access some scenes via a REST API",
+  "description": "CRUD scenes via a REST API",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -47,6 +47,17 @@
     "Models": "src/models",
     "Routers": "src/routers",
     "Validators": "src/validators",
-    "@DB": "src/db/mysql.js"
+    "@DB": "src/db/mysql.js",
+    "@app": "src/app.js"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "Models/(.*)": "<rootDir>/src/models/$1",
+      "Routers/(.*)": "<rootDir>/src/routers/$1",
+      "Validators/(.*)": "<rootDir>/src/validators/$1",
+      "@DB": "<rootDir>/src/db/mysql.js",
+      "@app": "<rootDir>/src/app.js",
+      "src/(.*)": "<rootDir>/src/$1"
+    }
   }
 }
