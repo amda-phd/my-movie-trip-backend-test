@@ -2,8 +2,7 @@ const request = require("supertest");
 
 const app = require("@app");
 const { setupDB, scenes } = require("@fixturesDB");
-const { assert } = require("joi");
-const Scenes = require("../src/models/scenes");
+const Scenes = require("Models/scenes");
 
 beforeAll(setupDB);
 
@@ -97,6 +96,17 @@ describe("/scenes", () => {
         expect(scene.creation_date).not.toBe("2021-09-15");
         return done();
       });
+    });
+  });
+
+  describe("DELETE /:id", () => {
+    it("Removes item from database", async (done) => {
+      await request(app).delete("/scenes/2").expect(204);
+      const scene = await Scenes.findOne({
+        where: { id: 2 },
+      });
+      expect(scene).toBeNull();
+      return done();
     });
   });
 });

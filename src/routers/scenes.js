@@ -116,7 +116,7 @@ router.delete("/scenes/:id", Validators.id, async (req, res) => {
       return res.status(404).send();
     }
     await scene.destroy();
-    return res.status(204);
+    return res.status(204).send();
   } catch (error) {
     console.log(error);
     return res.status(500).send({ error: error.message });

@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("@app");
 
 // SUCCESS
-describe.skip("API should", () => {
+describe("API should", () => {
   it("be healthy", async () => {
     const response = await request(app).get("/health").expect(200);
 
