@@ -24,5 +24,9 @@ module.exports = {
     })
   ),
   id: validator.params(Joi.object({ id: Joi.number().min(1).required() })),
-  query: validator.query(Joi.object()),
+  query: validator.query(
+    Joi.object({
+      sortBy: Joi.string().not().required(),
+    })
+  ),
 };

@@ -6,7 +6,7 @@ const Validators = require("Validators/scenes");
 
 const router = new Router();
 
-router.get("/scenes", async (req, res) => {
+router.get("/scenes", Validators.query, async (req, res) => {
   try {
     let scenes;
     if (req.query.sortBy) {
@@ -24,6 +24,18 @@ router.get("/scenes", async (req, res) => {
         const coords = req.query.sortBy.split("_")[2];
         const user_lat = coords.split(",")[0];
         const user_lng = coords.split(",")[1];
+        if (
+          !user_lat ||
+          !user_lng ||
+          !parseFloat(user_lat) ||
+          !parseFloat(user_lng) ||
+          parseFloat(user_lat) < -90 ||
+          parseFloat(user_lat) > 90 ||
+          parseFloat(user_lng) < -180 ||
+          parseFloat(user_lng) > 180
+        ) {
+          return res.status(400).send("Invalid coordinates");
+        }
 
         const query = `SELECT *, SUBSTRING_INDEX(location, ', ', 1) AS lat, SUBSTRING_INDEX(location, ', ', -1) AS lng FROM scenes ORDER BY ((lat-${user_lat})*(lat-${user_lat})) + ((lng - ${user_lng})*(lng - ${user_lng})) ${order}`;
         [scenes, metadata] = await MyMovieTripDB.query(query);
