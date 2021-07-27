@@ -26,7 +26,7 @@ const scenes = [
   },
   {
     film: "Una noche por París",
-    creation_date: "09/10/2019",
+    creation_date: "10/09/2019",
     photo_url:
       "https://es.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_233/vue-sur-les-toits-de-la-tour-saint-jacques-%7C-740x380-%7C-%C2%A9-elodie-gutbrod-cr%C3%A9atividie/21581411-1-fre-FR/Vue-sur-les-toits-de-la-tour-Saint-Jacques-%7C-740x380-%7C-%C2%A9-Elodie-Gutbrod-Cr%C3%A9atividie.jpg",
     location: "48.87134324816528, 2.3410472114284704",
@@ -37,7 +37,7 @@ const scenes = [
   },
   {
     film: "Un día frío por Estocolmo",
-    creation_date: "19/06/2020",
+    creation_date: "06/19/2020",
     photo_url:
       "https://lh3.googleusercontent.com/proxy/0RIvhNBWCFGJFSOZF50PfDY86herJ6_YMb9xcPmE9Dnby-PsrEAgFyyO5tBmgDLA0y_rpV9Q7WkZomZzNn_jDYLro203OFUjQKPkXgGJwHw",
     location: "59.3420014237816, 18.051740952234823",
@@ -48,7 +48,7 @@ const scenes = [
   },
   {
     film: "La antigua Antenas",
-    creation_date: "03/11/2020",
+    creation_date: "11/03/2020",
     photo_url:
       "https://i1.wp.com/www.rulandomundo.com/wp-content/uploads/que-ver-en-atenas-partenon.jpg?fit=1024%2C678&ssl=1",
     location: "37.979602251814775, 23.728039066255356",
@@ -59,7 +59,7 @@ const scenes = [
   },
   {
     film: "En la capital colombiana",
-    creation_date: "13/12/2020",
+    creation_date: "12/13/2020",
     photo_url:
       "https://specials-images.forbesimg.com/imageserve/813256520/960x0.jpg?fit=scale",
     location: "4.65275381740946, -74.10827021822311",
@@ -76,7 +76,7 @@ const setupDB = async () => {
 
   const Scenes = require("Models/scenes");
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 5; i++) {
     await Scenes.create(scenes[i]);
   }
 };

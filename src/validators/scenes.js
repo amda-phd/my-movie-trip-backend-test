@@ -5,7 +5,7 @@ module.exports = {
   create: validator.body(
     Joi.object({
       film: Joi.string().min(5).max(45).required(),
-      creation_date: Joi.string().required(),
+      creation_date: Joi.date().required(),
       photo_url: Joi.string().uri().required(),
       location: Joi.string().min(5).max(45).required(),
       description: Joi.string().min(10).max(500).required(),

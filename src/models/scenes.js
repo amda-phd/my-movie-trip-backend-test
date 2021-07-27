@@ -16,7 +16,7 @@ const Scenes = MyMovieTripDB.define(
       allowNull: false,
     },
     creation_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     photo_url: {
