@@ -1,9 +1,21 @@
 const { Router } = require("express");
+const Joi = require("joi");
+const validator = require("express-joi-validation").createValidator({});
 
 const MyMovieTripDB = require("@DB");
 const Scenes = require("Models/scenes");
 
 const router = new Router();
+
+const sceneSchema = Joi.object({
+  film: Joi.string().min(5).max(45).required(),
+  creation_date: Joi.string().required(),
+  photo_url: Joi.string().uri().required(),
+  location: Joi.string().min(5).max(45).required(),
+  description: Joi.string().min(10).max(500).required(),
+  country: Joi.string().min(5).max(45).required(),
+  city: Joi.string().min(5).max(45).required(),
+});
 
 router.get("/scenes", async (req, res) => {
   try {
@@ -38,7 +50,7 @@ router.get("/scenes", async (req, res) => {
   }
 });
 
-router.post("/scenes", async (req, res) => {
+router.post("/scenes", validator.body(sceneSchema), async (req, res) => {
   try {
     const scene = await Scenes.create(req.body);
     return res.status(201).send(scene);
@@ -56,7 +68,7 @@ router.get("/scenes/:id", async (req, res) => {
       },
     });
     if (!scene) {
-      return res.status(404).send({ error: "Scene not found" });
+      return res.status(404).send();
     }
     return res.send(scene);
   } catch (error) {
@@ -76,7 +88,7 @@ router.patch("/scenes/:id", async (req, res) => {
       },
     });
     if (!scene) {
-      return res.status(404).send({ error: "Scene not found" });
+      return res.status(404).send();
     }
     Object.keys(req.body).forEach((key) => {
       scene[key] = req.body[key];
@@ -98,7 +110,7 @@ router.delete("/scenes/:id", async (req, res) => {
       },
     });
     if (!scene) {
-      return res.status(404).send({ error: "Scene not found" });
+      return res.status(404).send();
     }
     await scene.destroy();
     return res.status(204);
