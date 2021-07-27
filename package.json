@@ -57,7 +57,8 @@
       "Validators/(.*)": "<rootDir>/src/validators/$1",
       "@DB": "<rootDir>/src/db/mysql.js",
       "@app": "<rootDir>/src/app.js",
-      "src/(.*)": "<rootDir>/src/$1"
+      "src/(.*)": "<rootDir>/src/$1",
+      "@fixturesDB": "<rootDir>/tests/fixtures/db.js"
     }
   }
 }

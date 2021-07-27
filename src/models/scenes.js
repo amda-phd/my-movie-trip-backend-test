@@ -20,7 +20,7 @@ const Scenes = MyMovieTripDB.define(
       allowNull: false,
     },
     photo_url: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
     location: {
