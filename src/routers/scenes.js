@@ -10,20 +10,21 @@ router.get("/scenes", async (req, res) => {
     let scenes;
     if (req.query.sortBy) {
       let parts = [];
+      const order = req.query.sortBy.toLowerCase().includes("desc")
+        ? "DESC"
+        : "ASC";
       if (req.query.sortBy.includes("creation_date")) {
-        parts.push([
-          "creation_date",
-          req.query.sortBy.includes("desc") ? "DESC" : "ASC",
-        ]);
+        parts.push(["creation_date", order]);
         scenes = await Scenes.findAll({
           order: [parts],
         });
-      } else if (req.query.sortBy.includes("closest_to")) {
+      } else if (req.query.sortBy.includes("distance_to")) {
         let metadata;
         const coords = req.query.sortBy.split("_")[2];
         const user_lat = coords.split(",")[0];
         const user_lng = coords.split(",")[1];
-        const query = `SELECT *, SUBSTRING_INDEX(location, ', ', 1) AS lat, SUBSTRING_INDEX(location, ', ', -1) AS lng FROM scenes ORDER BY ((lat-${user_lat})*(lat-${user_lat})) + ((lng - ${user_lng})*(lng - ${user_lng})) ASC`;
+
+        const query = `SELECT *, SUBSTRING_INDEX(location, ', ', 1) AS lat, SUBSTRING_INDEX(location, ', ', -1) AS lng FROM scenes ORDER BY ((lat-${user_lat})*(lat-${user_lat})) + ((lng - ${user_lng})*(lng - ${user_lng})) ${order}`;
         [scenes, metadata] = await MyMovieTripDB.query(query);
       }
     } else {
