@@ -46,6 +46,7 @@
   "_moduleAliases": {
     "Models": "src/models",
     "Routers": "src/routers",
+    "Validators": "src/validators",
     "@DB": "src/db/mysql.js"
   }
 }

@@ -1,21 +1,10 @@
 const { Router } = require("express");
-const Joi = require("joi");
-const validator = require("express-joi-validation").createValidator({});
 
 const MyMovieTripDB = require("@DB");
 const Scenes = require("Models/scenes");
+const Validators = require("Validators/scenes");
 
 const router = new Router();
-
-const sceneSchema = Joi.object({
-  film: Joi.string().min(5).max(45).required(),
-  creation_date: Joi.string().required(),
-  photo_url: Joi.string().uri().required(),
-  location: Joi.string().min(5).max(45).required(),
-  description: Joi.string().min(10).max(500).required(),
-  country: Joi.string().min(5).max(45).required(),
-  city: Joi.string().min(5).max(45).required(),
-});
 
 router.get("/scenes", async (req, res) => {
   try {
@@ -50,7 +39,7 @@ router.get("/scenes", async (req, res) => {
   }
 });
 
-router.post("/scenes", validator.body(sceneSchema), async (req, res) => {
+router.post("/scenes", Validators.create, async (req, res) => {
   try {
     const scene = await Scenes.create(req.body);
     return res.status(201).send(scene);
@@ -60,7 +49,7 @@ router.post("/scenes", validator.body(sceneSchema), async (req, res) => {
   }
 });
 
-router.get("/scenes/:id", async (req, res) => {
+router.get("/scenes/:id", Validators.id, async (req, res) => {
   try {
     const scene = await Scenes.findOne({
       where: {
@@ -77,32 +66,34 @@ router.get("/scenes/:id", async (req, res) => {
   }
 });
 
-router.patch("/scenes/:id", async (req, res) => {
-  if (!req.params.id) {
-    return res.status(406).send({ error: "This route requires an id" });
-  }
-  try {
-    const scene = await Scenes.findOne({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
-    if (!scene) {
-      return res.status(404).send();
+router.patch(
+  "/scenes/:id",
+  Validators.id,
+  Validators.edit,
+  async (req, res) => {
+    try {
+      const scene = await Scenes.findOne({
+        where: {
+          id: parseInt(req.params.id),
+        },
+      });
+      if (!scene) {
+        return res.status(404).send();
+      }
+      Object.keys(req.body).forEach((key) => {
+        scene[key] = req.body[key];
+      });
+      await scene.save();
+      await scene.reload();
+      return res.send(scene);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ error: error.message });
     }
-    Object.keys(req.body).forEach((key) => {
-      scene[key] = req.body[key];
-    });
-    await scene.save();
-    await scene.reload();
-    return res.send(scene);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({ error: error.message });
   }
-});
+);
 
-router.delete("/scenes/:id", async (req, res) => {
+router.delete("/scenes/:id", Validators.id, async (req, res) => {
   try {
     const scene = await Scenes.findOne({
       where: {
