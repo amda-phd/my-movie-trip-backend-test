@@ -128,7 +128,6 @@ describe("/scenes", () => {
           .send({ city: "Barcelona" })
           .expect(200);
 
-        await Scenes.sync();
         const scene = await Scenes.findOne({
           where: { id: 2 },
         });

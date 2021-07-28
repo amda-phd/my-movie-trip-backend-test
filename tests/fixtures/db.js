@@ -71,11 +71,9 @@ const scenes = [
 ];
 
 const setupDB = async () => {
-  await MyMovieTripDB.sync();
   await MyMovieTripDB.sync({ force: true });
 
   const Scenes = require("Models/scenes");
-
   for (let i = 0; i < 5; i++) {
     await Scenes.create(scenes[i]);
   }
