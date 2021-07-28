@@ -11,6 +11,32 @@ describe("/scenes", () => {
     it("Retrieves all items", (done) => {
       request(app).get("/scenes").expect(200, done());
     });
+
+    describe("QUERY sortBy", () => {
+      describe("creation_date", () => {
+        it("Gets right order for asc and desc", async (done) => {
+          const asc = await request(app)
+            .get("/scenes?sortBy=creation_date")
+            .expect(200);
+          const desc = await request(app)
+            .get("/scenes?sortBy=creation_date_desc")
+            .expect(200);
+          for (let i = 0; i < asc.body.length; i++) {
+            expect(asc.body[i]).toMatchObject(
+              desc.body[desc.body.length - i - 1]
+            );
+            if (i > 0) {
+              expect(
+                new Date(asc.body[i].creation_date).getTime()
+              ).toBeGreaterThan(
+                new Date(asc.body[i - 1].creation_date).getTime()
+              );
+            }
+          }
+          return done();
+        });
+      });
+    });
   });
 
   describe("POST /", () => {
