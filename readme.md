@@ -16,5 +16,5 @@
 
 # Documentación interesante:
 
-[Sobre coordenadas](http://www.movable-type.co.uk/scripts/latlong.html)
-[Organizar coordenadas mediante la simple aplicación del Teorema de Pitágoras](https://gist.github.com/statickidz/8a2f0ce3bca9badbf34970b958ef8479)
+- [Sobre coordenadas](http://www.movable-type.co.uk/scripts/latlong.html)
+- [Organizar coordenadas mediante la simple aplicación del Teorema de Pitágoras](https://gist.github.com/statickidz/8a2f0ce3bca9badbf34970b958ef8479)
