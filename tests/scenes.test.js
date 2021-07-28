@@ -36,6 +36,33 @@ describe("/scenes", () => {
           return done();
         });
       });
+
+      describe("distance_to", () => {
+        it("Gets right order for asc and desc", async (done) => {
+          const asc = await request(app)
+            .get("/scenes?sortBy=distance_to_40.4472979,-3.63865,17")
+            .expect(200);
+          const desc = await request(app)
+            .get("/scenes?sortBy=distance_to_40.4472979,-3.63865,17_desc")
+            .expect(200);
+          for (let i = 0; i < asc.body.length; i++) {
+            expect(asc.body[i]).toMatchObject(
+              desc.body[desc.body.length - i - 1]
+            );
+          }
+          expect(asc.body[0].city).toBe("Madrid");
+          expect(desc.body[0].city).not.toBe("Madrid");
+          expect(asc.body[1].city).toBe("Lisboa");
+          expect(asc.body[2].city).toBe("París");
+          return done();
+        });
+      });
+    });
+
+    describe("QUERY unexpected field", () => {
+      it("Produces coherent error and doesn't return items", (done) => {
+        request(app).get("/scenes?country=Spain").expect(400, done());
+      });
     });
   });
 
@@ -111,7 +138,7 @@ describe("/scenes", () => {
     });
 
     describe("Non-editable field", () => {
-      it("Throw coherent error and doesn't modify field", async (done) => {
+      it("Throws coherent error and doesn't modify field", async (done) => {
         await request(app)
           .patch("/scenes/2")
           .send({ creation_date: "09/15/2021" })
